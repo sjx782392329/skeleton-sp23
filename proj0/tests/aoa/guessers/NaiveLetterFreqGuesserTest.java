@@ -4,8 +4,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -59,5 +64,29 @@ public class NaiveLetterFreqGuesserTest {
         // check that the next guess is b if someone has already guessed l, o, x, a, e (in that order).
         guess = nlfg.getGuess(List.of('l', 'o', 'x', 'a', 'e'));
         assertThat(guess).isEqualTo('b');
+    }
+
+    @Test
+    public void testFile() {
+        final File file = new File("data/example.txt");
+        System.out.println(file.exists());
+    }
+
+    @Test
+    public void testTreeMap() {
+        Map<Character, Integer> map = new HashMap<>();
+        map.put('a', 3);
+        map.put('b', 2);
+        map.put('d', 2);
+        map.put('e', 7);
+        map.put('l', 6);
+        map.put('o', 5);
+        TreeMap<Character, Integer> tree = new TreeMap<>((k1, k2) -> map.get(k2).compareTo(map.get(k1)));
+        tree.putAll(map);
+        tree.forEach((k, v) -> {
+            System.out.println((char)k);
+            System.out.println(v);
+        });
+
     }
 }
