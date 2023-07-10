@@ -26,21 +26,23 @@ public class PAGALetterFreqGuesser implements Guesser {
             }
         }
         if (allFlag) {
-//            for (String word : words) {
-//                boolean flag = true;
-//                for (Character c : guesses) {
-//                    // word 包含 guesses 中的字符
-//                    // indexOf return -1 if c not exists
-//                    if (word.indexOf(c) != -1) {
-//                        flag = false;
-//                        break;
-//                    }
-//                }
-//                if (flag) {
-//                    res.add(word);
-//                }
-//            }
-            res.addAll(words);
+            for (String word : words) {
+                if (word.length() != pattern.length()) {
+                    continue;
+                }
+                boolean flag = true;
+                for (Character c : guesses) {
+                    // word 包含 guesses 中的字符
+                    // indexOf return -1 if c not exists
+                    if (word.indexOf(c) != -1) {
+                        flag = false;
+                        break;
+                    }
+                }
+                if (flag) {
+                    res.add(word);
+                }
+            }
             return res;
         }
         char[] charArrays = pattern.toCharArray();
@@ -60,11 +62,7 @@ public class PAGALetterFreqGuesser implements Guesser {
             if (word.length() != pattern.length()) {
                 continue;
             }
-//            for (Character c : guesses) {
-//                if (word.indexOf(c) != -1 ) {
-//                    continue;
-//                }
-//            }
+            char[] arrs = word.toCharArray();
             for (Map.Entry<Character, List<Integer>> entry : indexMap.entrySet()) {
                 List<Integer> lists = entry.getValue();
                 char c = entry.getKey();
@@ -73,10 +71,24 @@ public class PAGALetterFreqGuesser implements Guesser {
                         flag = false;
                         break;
                     }
+                    if (flag) {
+                        arrs[list] = '1';
+                    }
+                }
+                if (!flag) {
+                    break;
                 }
             }
             if (flag) {
-                res.add(word);
+                boolean addFlag = true;
+                for (Character c : guesses) {
+                    if (String.copyValueOf(arrs).indexOf(c) != -1) {
+                        addFlag = false;
+                    }
+                }
+                if (addFlag) {
+                    res.add(word);
+                }
             }
         }
         return res;

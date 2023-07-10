@@ -35,7 +35,7 @@ public class PAGALetterFreqGuesserTest {
 
         // check that the first guess is e, the most common letter in the dictionary if the 2nd letter is o.
         char guess = palfg.getGuess("-o--", List.of('o'));
-        assertThat(guess).isEqualTo('c');
+        assertThat(guess).isEqualTo('e');
     }
 
     @Order(3)
@@ -75,5 +75,13 @@ public class PAGALetterFreqGuesserTest {
         // check that the next guess is n, if the previous guesses were o, a, l, and s
         guess = palfg.getGuess("-o--a-", List.of('o', 'a', 's', 'l'));
         assertThat(guess).isEqualTo('n');
+    }
+
+    @Test
+    public void testIndexOf() {
+        char[] arr = new char[] {'a', '1', 'r', 't', '1', 'l'};
+        final String s = String.copyValueOf(arr);
+        int index = s.indexOf('a');
+        assertThat(index).isEqualTo(0);
     }
 }
