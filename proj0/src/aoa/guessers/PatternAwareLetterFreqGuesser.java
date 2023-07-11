@@ -91,8 +91,8 @@ public class PatternAwareLetterFreqGuesser implements Guesser {
      *  PATTERN. */
     public char getGuess(String pattern, List<Character> guesses) {
         // TODO: Fill in this method.
-        final List<String> list = keepOnlyWordsThatMatchPattern(pattern);
-        final Map<Character, Integer> map = getFreqMapThatMatchesPattern(list);
+        final List<String> lists = keepOnlyWordsThatMatchPattern(pattern);
+        final Map<Character, Integer> map = getFreqMapThatMatchesPattern(lists);
         for (Map.Entry<Character, Integer> entry : map.entrySet()) {
             Character k = entry.getKey();
             if (!guesses.contains(k)) {

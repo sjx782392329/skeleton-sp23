@@ -136,4 +136,10 @@ public class RandomChooserTest {
         // No words of length 26, but there's longer word(s) ("floccinaucinihilipilification")
         assertThrows(IllegalStateException.class, () -> new RandomChooser(26, DICTIONARY_FILE));
     }
+
+    @Test
+    public void testPattern() {
+        String str = "-".repeat(5);
+        System.out.println(str);
+    }
 }
