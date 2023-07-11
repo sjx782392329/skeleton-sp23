@@ -28,7 +28,7 @@ public class RandomChooser implements Chooser {
     public int makeGuess(char letter) {
         // TODO: Fill in this method.
         int res = 0;
-        char[] chars = new char[pattern.length()];
+        char[] chars;
         char[] chosenChars = chosenWord.toCharArray();
         for (int i = 0; i < chosenChars.length; i++) {
             if (chosenChars[i] == letter) {

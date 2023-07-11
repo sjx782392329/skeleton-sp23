@@ -155,4 +155,11 @@ public class EvilChooserTest {
     public void testECMedLength() {
         assertThrows(IllegalStateException.class, () -> new EvilChooser(26, DICTIONARY_FILE));
     }
+
+    @Test
+    public void testIndexOf(){
+        String str = "else";
+        System.out.println(str.indexOf('e'));
+
+    }
 }
