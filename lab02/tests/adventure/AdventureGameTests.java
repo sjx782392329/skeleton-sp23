@@ -1,9 +1,11 @@
 package adventure;
 
+import common.IntList;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdRandom;
 import helpers.CaptureSystemOutput;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -81,5 +83,21 @@ public class AdventureGameTests {
         AdventureGame game = new AdventureGame(in);
         game.play();
     }
+
+    @Test
+    public void testReverse() {
+        final String print = reverseList(IntList.of(3, 0, 4)).print();
+        System.out.println(print);
+    }
+
+    private IntList reverseList(IntList l) {
+        IntList reversed = null;
+        while (l != null) {
+            reversed = new IntList(l.first, reversed);
+            l = l.rest;
+        }
+        return reversed;
+    }
+
 
 }
