@@ -1,3 +1,6 @@
+import org.junit.jupiter.api.Test;
+
+import java.lang.instrument.Instrumentation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -224,6 +227,11 @@ public class NodeChecker {
             ex.printStackTrace();
             fail("Internal error.");
         }
+    }
+
+    @Test
+    public void testArray() {
+
     }
 
 }
