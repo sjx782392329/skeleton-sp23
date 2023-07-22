@@ -3,10 +3,7 @@ package gh2;
 import edu.princeton.cs.algs4.StdAudio;
 import edu.princeton.cs.algs4.StdDraw;
 
-/**
- * A client that uses the synthesizer package to replicate a plucked guitar string sound
- */
-public class GuitarHeroLite {
+public class GuitarHero {
     private static final double CONCERT_A = 440.0;
     private static final double CONCERT_C = CONCERT_A * Math.pow(2, 3.0 / 12.0);
 
@@ -19,21 +16,19 @@ public class GuitarHeroLite {
 
             /* check if the user has typed a key; if so, process it */
             if (StdDraw.hasNextKeyTyped()) {
-                System.out.println(StdDraw.hasNextKeyTyped());
                 char key = StdDraw.nextKeyTyped();
                 if (key == 'a') {
                     stringA.pluck();
                 } else if (key == 'c') {
                     stringC.pluck();
                 }
-                System.out.println(key);
+            } else {
+                continue;
             }
-//            stringA.pluck();
-//            stringC.pluck();
 
             /* compute the superposition of samples */
             double sample = stringA.sample() + stringC.sample();
-//            System.out.println("sample: " + sample);
+
             /* play the sample on standard audio */
             StdAudio.play(sample);
 
@@ -43,4 +38,3 @@ public class GuitarHeroLite {
         }
     }
 }
-

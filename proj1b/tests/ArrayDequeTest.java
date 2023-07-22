@@ -141,4 +141,30 @@ public class ArrayDequeTest {
         ad.removeFirst();
         assertThat(ad.getItemsLength()).isEqualTo(8);
     }
+
+    @Test
+    public void testRemoveFirstFull() {
+        ArrayDeque<String> ad = new ArrayDeque<>(4, 5);
+        assertThat(ad.isEmpty()).isTrue();
+        ad.addFirst("c");
+        assertThat(ad.isEmpty()).isFalse();
+        ad.addFirst("d");
+        assertThat(ad.getItemsLength()).isEqualTo(8);
+        ad.addFirst("e");
+        assertThat(ad.getItemsLength()).isEqualTo(8);
+        ad.addFirst("f");
+        ad.addFirst("g");
+        ad.addFirst("h");
+        ad.addFirst("i");
+        ad.addFirst("j");
+        assertThat(ad.toList()).containsExactly("j", "i", "h", "g", "f", "e", "d", "c").inOrder();
+        assertThat(ad.removeFirst()).isEqualTo("j");
+        assertThat(ad.removeFirst()).isEqualTo("i");
+        assertThat(ad.removeFirst()).isEqualTo("h");
+        assertThat(ad.removeFirst()).isEqualTo("g");
+        assertThat(ad.removeFirst()).isEqualTo("f");
+        assertThat(ad.removeFirst()).isEqualTo("e");
+        assertThat(ad.removeFirst()).isEqualTo("d");
+        assertThat(ad.removeFirst()).isEqualTo("c");
+    }
 }
