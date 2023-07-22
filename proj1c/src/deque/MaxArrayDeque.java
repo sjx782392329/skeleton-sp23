@@ -2,54 +2,46 @@ package deque;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
-public class ArrayDeque<T> implements Deque<T>{
+public class MaxArrayDeque<T> implements Deque<T>{
 
-    public Object[] getItems() {
-        return items;
-    }
-
-    public Object[] items;
+    private Object[] items;
     private int size;
-
-    public int getNextFirst() {
-        return nextFirst;
-    }
-
-    public void setNextFirst(int nextFirst) {
-        this.nextFirst = nextFirst;
-    }
-
-    private int nextFirst = 4;
-    private int nextLast = 5;
+    private int nextFirst;
+    private int nextLast;
     private final double threshold = 0.25;
     private final int minArrayLength = 8;
+    private Comparator<T> c;
 
-    public ArrayDeque() {
+    public MaxArrayDeque() {
         items = new Object[minArrayLength];
         size = 0;
+        nextFirst = 4;
+        nextLast = 5;
     }
 
-    public ArrayDeque(int nextFirst, int nextLast) {
+    public MaxArrayDeque(int nextFirst, int nextLast) {
         items = new Object[minArrayLength];
         size = 0;
         this.nextFirst = nextFirst;
         this.nextLast = nextLast;
     }
 
-    public ArrayDeque(int minArrayLength) {
+    public MaxArrayDeque(Comparator<T> c) {
         items = new Object[minArrayLength];
         size = 0;
-        this.nextFirst = minArrayLength - 1;
-        this.nextLast = 0;
+        nextFirst = 4;
+        nextLast = 5;
+        this.c = c;
     }
 
     @Override
     public void addFirst(T x) {
-        if (size == items.length || (nextFirst != 0 && nextFirst == nextLast && size + 1 < items.length)) {
+        if (size == items.length || (nextFirst == nextLast && size + 1 < items.length)) {
             resize(items.length << 1);
         }
         items[nextFirst] = x;
@@ -126,7 +118,7 @@ public class ArrayDeque<T> implements Deque<T>{
         }
         int newNextFirst = (nextFirst + 1) % items.length;
         Object item = items[newNextFirst];
-//        items[newNextFirst] = null;
+        items[newNextFirst] = null;
         nextFirst = newNextFirst;
         size--;
         resizeDown();
@@ -157,7 +149,7 @@ public class ArrayDeque<T> implements Deque<T>{
 
     @Override
     public T get(int index) {
-        if (index > items.length|| index < 0) {
+        if (index >= size || index < 0) {
             return null;
         }
         return (T) items[index];
@@ -174,14 +166,14 @@ public class ArrayDeque<T> implements Deque<T>{
 
     @Override
     public Iterator<T> iterator() {
-        return new ArrayDequeIterator();
+        return new MaxArrayDequeIterator();
     }
 
-    private class ArrayDequeIterator implements Iterator<T> {
+    private class MaxArrayDequeIterator implements Iterator<T> {
         private int pos;
         private int count;
 
-        public ArrayDequeIterator() {
+        public MaxArrayDequeIterator() {
             pos = 0;
             count = 0;
         }
@@ -212,7 +204,7 @@ public class ArrayDeque<T> implements Deque<T>{
         if (other == null) {
             return false;
         }
-        ArrayDeque<T> deque = (ArrayDeque) other;
+        MaxArrayDeque<T> deque = (MaxArrayDeque) other;
         return size == deque.size && Arrays.equals(items, this.items);
     }
 
@@ -243,35 +235,40 @@ public class ArrayDeque<T> implements Deque<T>{
         return sb.append("]").toString();
     }
 
-    public void clear(int minArrayLength) {
-        items = new Object[minArrayLength];
-        size = 0;
-        this.nextFirst = minArrayLength - 1;
-        this.nextLast = 0;
+    public T max() {
+        Object max = items[nextFirst + 1];
+        for (Object item : items) {
+            if (item == null) {
+                continue;
+            }
+            if (this.c.compare((T)max, (T)item) < 0) {
+                max = item;
+            }
+        }
+        return (T) max;
+    }
+
+    public T max(Comparator<T> c) {
+        Object max = items[nextFirst + 1];
+        for (Object item : items) {
+            if (item == null) {
+                continue;
+            }
+            if (c.compare((T)max, (T)item) < 0) {
+                max = item;
+            }
+        }
+        return (T) max;
     }
 
     public static void main(String[] args) {
-        ArrayDeque<String> ad = new ArrayDeque<>();
-        System.out.println(ad.nextFirst);
-//        ad.addLast("a");
-//        ad.addLast("b");
-        ad.addFirst("c");
-        ad.addLast("d");
-        ad.addLast("e");
-        ad.addFirst("f");
-        ad.addLast("g");
-//        ad.addLast("h");
-        ad.addFirst("Z");
-//        ad.addFirst("y");
-//        ad.addFirst("x");
-//        ad.addFirst("w");
-//        ad.addFirst("v");
-//        ad.addFirst("u");
-//        ad.addFirst("t");
+//        MaxArrayDeque<String> ad = new MaxArrayDeque<>(String::compareTo);
+        MaxArrayDeque<String> ad = new MaxArrayDeque<>(Comparator.comparingInt(String::length));
+        ad.addFirst("abbc");
+        ad.addFirst("cb");
+        ad.addFirst("bbb");
+        System.out.println(ad.max());
         System.out.println(ad.toList());
         System.out.println(ad.toList().size());
     }
-
-
 }
-

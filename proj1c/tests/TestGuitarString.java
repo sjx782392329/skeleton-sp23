@@ -1,6 +1,7 @@
 /* Imports the required audio library from the
  * edu.princeton.cs.algs4 package. */
 import edu.princeton.cs.algs4.StdAudio;
+import edu.princeton.cs.algs4.StdDraw;
 import org.junit.jupiter.api.Test;
 import gh2.GuitarString;
 
@@ -15,7 +16,8 @@ public class TestGuitarString  {
     @Test
     public void testPluckTheAString() {
         double CONCERT_A = 440.0;
-        GuitarString aString = new GuitarString(CONCERT_A);
+        double CONCERT_C = CONCERT_A * Math.pow(2, 3.0 / 12.0);
+        GuitarString aString = new GuitarString(CONCERT_C);
         aString.pluck();
         for (int i = 0; i < 50000; i += 1) {
             StdAudio.play(aString.sample());
@@ -81,5 +83,21 @@ public class TestGuitarString  {
         String errorMsg = "Wrong tic value. Try running the testTic method in TestGuitarString.java";
         assertWithMessage(errorMsg).that(s5).isWithin(0.001).of(expected);
     }
+
+    @Test
+    public void testStandardDraw() {
+        while (true) {
+            if (StdDraw.hasNextKeyTyped()) {
+                char key = StdDraw.nextKeyTyped();
+                System.out.println(key);
+            }
+        }
+    }
+
+    @Test
+    public void testStandardAudio() {
+        StdAudio.play(0.1);
+    }
+
 }
 

@@ -26,7 +26,7 @@ public class ArrayDeque<T> implements Deque<T>{
 
     @Override
     public void addFirst(T x) {
-        if (size == items.length || (nextFirst == nextLast && size + 1 < items.length)) {
+        if (size == items.length || (nextFirst != 0 && nextFirst == nextLast && size + 1 < items.length)) {
             resize(items.length << 1);
         }
         items[nextFirst] = x;
