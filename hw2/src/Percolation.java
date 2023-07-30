@@ -12,7 +12,7 @@ public class Percolation {
     public Percolation(int N) {
         // TODO: Fill in this constructor.
         grids = new boolean[N][N];
-        wqu = new WeightedQuickUnionUF(N * N);
+        wqu = new WeightedQuickUnionUF(N * N + 2);
         width = N;
         openedCount = 0;
     }
@@ -28,6 +28,12 @@ public class Percolation {
             return;
         }
         grids[row][col] = true;
+        if (row == 0) {
+            wqu.union(wqu.count() - 2, xyTo1D(row, col));
+        }
+        if (row == width - 1) {
+            wqu.union(wqu.count() - 1, xyTo1D(row, col));
+        }
         unionNeighbor(row, col);
         openedCount++;
     }
@@ -68,13 +74,7 @@ public class Percolation {
         if (!grids[row][col]) {
             return false;
         }
-        int index = xyTo1D(row, col);
-        for (int i = 0; i < width; i++) {
-            if (wqu.connected(i, index)) {
-                return true;
-            }
-        }
-        return false;
+        return wqu.connected(xyTo1D(row, col), wqu.count() - 2);
     }
 
     public int numberOfOpenSites() {
@@ -84,17 +84,7 @@ public class Percolation {
 
     public boolean percolates() {
         // TODO: Fill in this method.
-        for (int i = 0; i < width; i++) {
-            if (!grids[0][i]) {
-                continue;
-            }
-            for (int j = 0; j < width; j++) {
-                if (grids[width - 1][j] && wqu.connected(i, xyTo1D(width - 1, j))) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return wqu.connected(wqu.count() - 2, wqu.count() - 1);
     }
 
     public void validate(int row, int col) {

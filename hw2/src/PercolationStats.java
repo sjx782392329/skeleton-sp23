@@ -45,7 +45,7 @@ public class PercolationStats {
     }
 
     public static void main(String[] args) {
-        int trials = 200, gridSize = 50;
+        int trials = 200, gridSize = 100;
 //        int trials = 100, gridSize = 50;
         PercolationFactory pf = new PercolationFactory();
         Stopwatch timer = new Stopwatch();
