@@ -1,5 +1,6 @@
 package ngordnet.ngrams;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -29,6 +30,14 @@ public class TimeSeries extends TreeMap<Integer, Double> {
     public TimeSeries(TimeSeries ts, int startYear, int endYear) {
         super();
         // TODO: Fill in this constructor.
+        if (startYear < MIN_YEAR || endYear > MAX_YEAR) {
+            throw new IllegalArgumentException("startYear : endYear [1400,2100] startYear is: " + startYear + ", " + "endYear is: " + endYear);
+        }
+        ts.forEach((k, v) -> {
+            if (k >= startYear && k <= endYear) {
+                this.put(k, v);
+            }
+        });
     }
 
     /**
@@ -36,7 +45,7 @@ public class TimeSeries extends TreeMap<Integer, Double> {
      */
     public List<Integer> years() {
         // TODO: Fill in this method.
-        return null;
+        return List.copyOf(this.keySet());
     }
 
     /**
@@ -45,7 +54,11 @@ public class TimeSeries extends TreeMap<Integer, Double> {
      */
     public List<Double> data() {
         // TODO: Fill in this method.
-        return null;
+        List<Double> datas = new ArrayList<>();
+        for (int year : this.keySet()) {
+            datas.add(this.get(year));
+        }
+        return datas;
     }
 
     /**
@@ -59,7 +72,14 @@ public class TimeSeries extends TreeMap<Integer, Double> {
      */
     public TimeSeries plus(TimeSeries ts) {
         // TODO: Fill in this method.
-        return null;
+        TimeSeries merge = new TimeSeries();
+        for (int year : this.keySet()) {
+            merge.put(year, this.get(year));
+        }
+        for (int year : ts.keySet()) {
+            merge.put(year, merge.getOrDefault(year, 0.0) + ts.get(year));
+        }
+        return merge;
     }
 
     /**
@@ -73,9 +93,25 @@ public class TimeSeries extends TreeMap<Integer, Double> {
      */
     public TimeSeries dividedBy(TimeSeries ts) {
         // TODO: Fill in this method.
-        return null;
+        TimeSeries divided = new TimeSeries();
+        for (int year : this.keySet()) {
+            divided.put(year, this.get(year));
+        }
+        for (int year : divided.keySet()) {
+            if (!ts.containsKey(year)) {
+                throw new IllegalArgumentException("TS is missing a year that exists in this TimeSeries");
+            }
+            divided.put(year, divided.get(year) / ts.get(year));
+        }
+        return divided;
     }
 
     // TODO: Add any private helper methods.
     // TODO: Remove all TODO comments before submitting.
+    public static void main(String[] args) {
+        TimeSeries timeSeries = new TimeSeries();
+        timeSeries.put(1994, 12.0);
+        System.out.println(timeSeries);
+        System.out.println(timeSeries.years());
+    }
 }

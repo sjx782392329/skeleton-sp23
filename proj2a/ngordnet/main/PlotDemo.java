@@ -16,6 +16,7 @@ public class PlotDemo {
         ArrayList<String> words = new ArrayList<>();
         words.add("cat");
         words.add("dog");
+        words.add("brag");
 
         ArrayList<TimeSeries> lts = new ArrayList<>();
         for (String word : words) {
@@ -27,7 +28,7 @@ public class PlotDemo {
         System.out.println(s);
 
         // you can also do this to display locally:
-        // Plotter.displayChart(chart);
+         Plotter.displayChart(chart);
 
     }
 }
