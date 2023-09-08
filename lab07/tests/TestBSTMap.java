@@ -1,4 +1,6 @@
 import static org.junit.Assert.*;
+
+import edu.princeton.cs.algs4.BST;
 import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -112,6 +114,15 @@ public class TestBSTMap {
         b.put("b", "provolone");
         assertThat(b.size()).isEqualTo(5);
         assertThat(b.get("b")).isEqualTo("provolone");
+    }
+
+    @Test
+    public void testPut() {
+        final BST<Integer, Object> bst = new BST<>();
+        bst.put(8, "");
+        bst.put(7, "");
+        bst.put(9, "");
+        bst.put(8, "");
     }
 
 }
