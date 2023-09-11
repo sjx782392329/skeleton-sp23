@@ -315,4 +315,11 @@ public class TestMyHashMap {
             return false;
         }
     }
+
+    @Test
+    public void test() {
+        final HashMap<Integer, Object> map = new HashMap<>();
+        map.put(1, null);
+        System.out.println(map.containsKey(1));
+    }
 }
